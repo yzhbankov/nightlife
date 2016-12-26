@@ -16,3 +16,12 @@ body{
     font-size: 20px;
     margin-bottom: 20px;
 }
+.signup form label{
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+.signup-title{
+    margin-top: 150px;
+    text-align: center;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/foundation.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-social.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <title>Nightlife coordinator</title>
+</head>
+<body>
+<div class="header">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <strong>IAROSLAV ZHBANKOV</strong>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="about-btn"><a href="/signin">Signin</a></li>
+                    <li class="portfolio-btn"><a href="/signup">Signup</a></li>
+                    <li class="resume-btn"><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container signup">
+    <h2 class="signup-title"> Signin</h2>
+    <form action="/signin" method="POST">
+
+        <label> User name:</label>
+        <input type="text" name="user" class="form-control#user" placeholder="User name">
+
+        <label> Password:</label>
+        <input type="password" name="password" class="form-control#pwd" placeholder="Password">
+
+        <button class="btn btn-default" type="submit">Submit</button>
+    </form>
+</div>
+
+<div class="footer">
+    <div class="buttons row">
+        <div class="col-md-3 col-xs-3">
+            <a href="https://www.facebook.com/profile.php?id=100008521293655"
+               class="btn btn-social-icon btn-sm btn-facebook">
+                <span class="fa fa-facebook"></span>
+            </a>
+        </div>
+        <div class="col-md-3 col-xs-3 col-centered">
+            <a href="https://github.com/yzhbankov" class="btn btn-social-icon btn-sm btn-github">
+                <span class="fa fa-github"></span>
+            </a>
+
+        </div>
+        <div class="col-md-3 col-xs-3 col-centered">
+            <a href="https://github.com/yzhbankov" class="btn btn-social-icon btn-sm btn-linkedin">
+                <span class="fa fa-linkedin"></span>
+            </a>
+        </div>
+        <div class="col-md-3 col-xs-3 col-centered">
+            <a href="https://plus.google.com/102236888586852159908" class="btn btn-social-icon btn-sm btn-google">
+                <span class="fa fa-google"></span>
+            </a>
+        </div>
+        <p class="block-title">© 2016 - All rights reserved</p>
+    </div>
+</div>
+</body>
+</html>
