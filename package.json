@@ -21,6 +21,7 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
-    "mongodb": "^2.2.16"
+    "mongodb": "^2.2.16",
+    "yelp": "^1.0.2"
   }
 }

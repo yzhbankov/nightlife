@@ -7,6 +7,14 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/nightlife';
+var Yelp = require('yelp');
+var yelp = new Yelp({
+    consumer_key: 'D8Pz1LzmgxC7WUdgwhHfEA',
+    consumer_secret: 'AvvKH7OKHnCEognJRrJpxqgg_Ps',
+    token: 'hODpfw8stpBlBS9Xx5_cTtE2j5oapRcY',
+    token_secret: 'yb0m-kyG5q_5sUladmco55Pa5U4'
+});
+
 
 app.use('/', express.static('public'));
 app.use(express.static(__dirname + '/public'));
@@ -81,6 +89,22 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+app.post('/search', function (req, res) {
+    var location = req.body.location;
+    yelp.search({term: 'food', location: location})
+        .then(function (data) {
+            //console.log(data); // print the data returned from the API call
+            var jsonString = JSON.stringify(data); // convert data to JSON string
+            jsonBussObj = JSON.parse(jsonString).businesses; // Parse JSON string to JSON Object
+            console.log(jsonBussObj[0]); // Print each business JSON object
+            var l = jsonBussObj.length; // Print length
+            //console.log(l);
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+    res.redirect('/');
+});
 app.listen(process.env.PORT || 3000, function () {
     console.log("Start server at port 3000");
 });
