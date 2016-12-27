@@ -95,11 +95,63 @@ app.post('/search', function (req, res) {
     var location = req.body.location;
     yelp.search({term: 'bars', location: location})
         .then(function (data) {
+            var ret;
             var jsonString = JSON.stringify(data); // convert data to JSON string
             jsonBussObj = JSON.parse(jsonString).businesses; // Parse JSON string to JSON Object
             var l = jsonBussObj.length; // Print length
             res.render('searchResult.jade', {"location": location, "data": jsonBussObj});
+
+            jsonBussObj.forEach(function (el, index) {
+                var barname = el["name"];
+                var bar_url = el["url"];
+                var text = el["snippet_text"];
+                var image_url = el["image_url"];
+                var location = el["location"]["city"];
+                MongoClient.connect(url, function (err, db) {
+                    db.collection('bars').findOne({"barname": barname, "location": location}, function (err, item) {
+                        if (item) {
+                            db.close();
+                            console.log(item.barname);
+                            console.log("bar already exist");
+                        } else {
+                            db.collection('bars').insertOne({
+                                "barname": barname,
+                                "location": location,
+                                "url": bar_url,
+                                "text": text,
+                                "img_url": image_url,
+                                "going": []
+                            }, function (err, result) {
+                                if (!err) {
+                                    console.log("bar added successfuly");
+                                }
+                            });
+                            db.close();
+                        }
+                    });
+
+                });
+
+            });
+
+
+            /*MongoClient.connect(url, function (err, db) {
+             db.collection('bars').find({
+             "barname": true,
+             "location": location,
+             "url": true,
+             "text": true,
+             "img_url": true,
+             "going": true
+             }).toArray(function (err, items) {
+             console.log(items);
+             res.render('searchResult.jade', {"location": location, "data": items});
+             });
+             db.close();
+             });*/
+            console.log(2);
         })
+
         .catch(function (err) {
             console.error(err);
         });
