@@ -16,17 +16,19 @@ var yelp = new Yelp({
 });
 
 
-app.use('/', express.static('public'));
+app.use("/", express.static('public'));
 app.use(express.static(__dirname + '/public'));
 app.use(session({secret: "secretword", resave: false, saveUninitialized: true}));
 app.use(bodyParser.urlencoded({extended: false}));
+app.set('view engine', 'jade');
+app.set('views', __dirname + '/view');
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/view/index.html');
+    res.render('index.jade', {});
 });
 
 app.get('/signup', function (req, res) {
-    res.sendFile(__dirname + '/view/signup.html');
+    res.render('signup.jade', {});
 });
 
 app.post('/signup', function (req, res) {
@@ -60,7 +62,7 @@ app.post('/signup', function (req, res) {
 });
 
 app.get('/signin', function (req, res) {
-    res.sendFile(__dirname + '/view/signin.html');
+    res.render('signin.jade', {});
 });
 
 app.post('/signin', function (req, res) {
@@ -93,12 +95,15 @@ app.post('/search', function (req, res) {
     var location = req.body.location;
     yelp.search({term: 'food', location: location})
         .then(function (data) {
-            //console.log(data); // print the data returned from the API call
             var jsonString = JSON.stringify(data); // convert data to JSON string
             jsonBussObj = JSON.parse(jsonString).businesses; // Parse JSON string to JSON Object
-            console.log(jsonBussObj[0]); // Print each business JSON object
             var l = jsonBussObj.length; // Print length
-            //console.log(l);
+
+
+
+
+
+
         })
         .catch(function (err) {
             console.error(err);

@@ -1,0 +1,16 @@
+//
+   Created by Владелец on 27.12.2016.
+
+doctype html
+extends ./layout.jade
+block append content
+   div.container.signup
+      h2.signup-title Signup
+      form(action="/signup" method="POST")
+         label User name:
+         input(type="text" name="user" placeholder="User name").form-control#user
+         label Email:
+         input(type="text" name="email" placeholder="E-mail").form-control#email
+         label Password:
+         input(type="password" name="password" placeholder="Password").form-control#pwd
+         button(type="submit").btn.btn-default Submit
