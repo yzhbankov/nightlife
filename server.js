@@ -93,22 +93,16 @@ app.get('/logout', function (req, res) {
 
 app.post('/search', function (req, res) {
     var location = req.body.location;
-    yelp.search({term: 'food', location: location})
+    yelp.search({term: 'bars', location: location})
         .then(function (data) {
             var jsonString = JSON.stringify(data); // convert data to JSON string
             jsonBussObj = JSON.parse(jsonString).businesses; // Parse JSON string to JSON Object
             var l = jsonBussObj.length; // Print length
-
-
-
-
-
-
+            res.render('searchResult.jade', {"location": location, "data": jsonBussObj});
         })
         .catch(function (err) {
             console.error(err);
         });
-    res.redirect('/');
 });
 app.listen(process.env.PORT || 3000, function () {
     console.log("Start server at port 3000");
