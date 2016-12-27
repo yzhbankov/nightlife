@@ -3,7 +3,7 @@
 doctype html
 extends ./layout.jade
 block append content
-    div.container
+    div.row
         div.col-md-3
         div.title.col-md-6
             div WANNA REST TONIGHT?
@@ -11,7 +11,8 @@ block append content
         form( method="post" action="/search")
             input(type="text" name="location")
             button(type="submit").btn.btn-default Find
-        div
+    div.row
+        div.col.md-3
             - if (data.length)
             -for (var i = 0; i < data.length; i++)
                 div.row.result
@@ -21,3 +22,4 @@ block append content
                         div
                             a(href=data[i].url)= data[i].name
                         div=data[i].snippet_text
+                        button.btn.btn-default 0 GOING
