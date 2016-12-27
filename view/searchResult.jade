@@ -18,9 +18,9 @@ block append content
             -for (var i = 0; i < data.length; i++)
                 div.row.result
                     div.col-md-3
-                        img(src=data[i].image_url alt="Smiley face" height="150" width="150")
+                        img(src=data[i].img_url alt="Smiley face" height="150" width="150")
                     div.col-md-9
                         div
-                            a(href=data[i].url)= data[i].name
-                        div=data[i].snippet_text
-                        button.btn.btn-default 'GOING'
+                            a(href=data[i].url)= data[i].barname
+                        div=data[i].text
+                        button.btn.btn-default=data[i].going.length + ' GOING'
