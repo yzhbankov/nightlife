@@ -23,4 +23,6 @@ block append content
                         div
                             a(href=data[i].url)= data[i].barname
                         div=data[i].text
-                        button.btn.btn-default=data[i].going.length + ' GOING'
+                        button(data-user=user data-barname=data[i].barname).going-btn-js.btn.btn-default=data[i].going.length + ' GOING'
+
+    script(src="js/button.js" type='text/javascript')

@@ -99,7 +99,6 @@ app.post('/search', function (req, res) {
             jsonBussObj = JSON.parse(jsonString).businesses; // Parse JSON string to JSON Object
             var l = jsonBussObj.length; // Print length
 
-
             var promise = new Promise(function (resolve, reject) {
                 jsonBussObj.forEach(function (el, index) {
                     var barname = el["name"];
@@ -108,7 +107,10 @@ app.post('/search', function (req, res) {
                     var image_url = el["image_url"];
                     var location = el["location"]["city"];
                     MongoClient.connect(url, function (err, db) {
-                        db.collection('bars_1').findOne({"barname": barname, "location": location}, function (err, item) {
+                        db.collection('bars_1').findOne({
+                            "barname": barname,
+                            "location": location
+                        }, function (err, item) {
                             if (item) {
                                 db.close();
                                 if (index == l - 1) {
@@ -144,7 +146,11 @@ app.post('/search', function (req, res) {
                     db.collection('bars_1').find({
                         "location": location
                     }).toArray(function (err, items) {
-                        res.render('searchResult.jade', {"location": location, "data": items});
+                        res.render('searchResult.jade', {
+                            "location": location,
+                            "data": items,
+                            "user": req.session.user
+                        });
                     });
                     db.close();
                 });
@@ -157,6 +163,44 @@ app.post('/search', function (req, res) {
             console.error(err);
         });
 });
+
+app.get('/search/:user/:barname', function (req, res) {
+    var barname = req.params.barname;
+    var user = req.params.user;
+    if (user == 'null') {
+        res.send("not authorised");
+    } else {
+        MongoClient.connect(url, function (err, db) {
+            db.collection('bars_1').findOne({"barname": barname}, function (err, item) {
+                if (item) {
+                    if (item.going.indexOf(user) == -1) {
+                        var newGoing = item.going;
+                        newGoing.push(user);
+                        db.collection('bars_1').update({"barname": barname},
+                            {"$set": {"going": newGoing}}, function (err, doc) {
+                                console.log("user going");
+                                db.close();
+                            });
+                        res.send({"number": newGoing.length});
+                    } else {
+                        var newGoing = item.going;
+                        newGoing.splice(item.going.indexOf(user), item.going.indexOf(user) + 1);
+                        db.collection('bars_1').update({"barname": barname},
+                            {"$set": {"going": newGoing}}, function (err, doc) {
+                                console.log("user going");
+                                db.close();
+                            });
+                        res.send({"number": newGoing.length});
+                    }
+                } else {
+                    db.close();
+                    res.send("no such a bar");
+                }
+            });
+        });
+    }
+});
+
 app.listen(process.env.PORT || 3000, function () {
     console.log("Start server at port 3000");
 });
