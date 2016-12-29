@@ -13,7 +13,11 @@ buttons.forEach(function (item, index) {
 
         req.onreadystatechange = function () {
             if (req.readyState == XMLHttpRequest.DONE) {
-                item.innerHTML = JSON.parse(req.responseText)["number"] + " GOING";
+                if (req.responseText == 'not authorised') {
+                    alert("You should authorised");
+                } else {
+                    item.innerHTML = JSON.parse(req.responseText)["number"] + " GOING";
+                }
             }
         };
     })

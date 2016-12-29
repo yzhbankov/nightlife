@@ -116,7 +116,6 @@ app.post('/search', function (req, res) {
                                 if (index == l - 1) {
                                     resolve();
                                 }
-                                console.log("bar already exist");
                             } else {
                                 db.collection('bars_1').insertOne({
                                     "barname": barname,
