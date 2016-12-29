@@ -89,7 +89,7 @@ app.post('/signin', function (req, res) {
 app.get('/logout', function (req, res) {
     req.session.destroy();
     console.log("session ends");
-    res.redirect('/search/' + lastLocation);
+    res.redirect('/');
 });
 
 app.post('/search', function (req, res) {
@@ -156,8 +156,6 @@ app.post('/search', function (req, res) {
                     db.close();
                 });
             });
-
-
         })
 
         .catch(function (err) {
@@ -188,12 +186,12 @@ app.get('/search/:user/:barname', function (req, res) {
         res.send("not authorised");
     } else {
         MongoClient.connect(url, function (err, db) {
-            db.collection('bars_1').findOne({"barname": barname}, function (err, item) {
+            db.collection('bars_1').findOne({"location": lastLocation, "barname": barname}, function (err, item) {
                 if (item) {
                     if (item.going.indexOf(user) == -1) {
                         var newGoing = item.going;
                         newGoing.push(user);
-                        db.collection('bars_1').update({"barname": barname},
+                        db.collection('bars_1').update({"location": lastLocation, "barname": barname},
                             {"$set": {"going": newGoing}}, function (err, doc) {
                                 console.log("user going");
                                 db.close();
@@ -202,7 +200,7 @@ app.get('/search/:user/:barname', function (req, res) {
                     } else {
                         var newGoing = item.going;
                         newGoing.splice(item.going.indexOf(user), item.going.indexOf(user) + 1);
-                        db.collection('bars_1').update({"barname": barname},
+                        db.collection('bars_1').update({"location": lastLocation, "barname": barname},
                             {"$set": {"going": newGoing}}, function (err, doc) {
                                 console.log("user going");
                                 db.close();
