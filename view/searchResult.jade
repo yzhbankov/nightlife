@@ -9,8 +9,12 @@ block append content
             div WANNA REST TONIGHT?
             div.description Find the best party places
         form( method="post" action="/search")
-            input(type="text" name="location")
-            button(type="submit").btn.btn-default Find
+            div.row
+                div.col-md-2
+                div.col-md-8
+                    input(type="text" name="location" placeholder="WHAT IS YOUR LOCATION?")
+                div.col-md-2
+                    button(type="submit" style='textAlign:center').btn.btn-default Find
     div.row
         div.col.md-3
 

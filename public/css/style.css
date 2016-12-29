@@ -26,6 +26,9 @@ body{
     margin-top: 150px;
     text-align: center;
 }
+.empty{
+    height:65vh;
+}
 .result{
     margin-bottom: 20px;
     font-size: 15px;
