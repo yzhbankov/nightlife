@@ -6,7 +6,8 @@ var app = express();
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/nightlife';
+//var url = 'mongodb://localhost:27017/nightlife';
+var url = 'mongodb://yzhbankov:password1360@ds149258.mlab.com:49258/heroku_j506xk64';
 var Yelp = require('yelp');
 var yelp = new Yelp({
     consumer_key: 'D8Pz1LzmgxC7WUdgwhHfEA',
