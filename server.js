@@ -14,9 +14,11 @@ var yelp = new Yelp({
     token: 'hODpfw8stpBlBS9Xx5_cTtE2j5oapRcY',
     token_secret: 'yb0m-kyG5q_5sUladmco55Pa5U4'
 });
+var lastLocation = '';
 
 
 app.use("/", express.static('public'));
+app.use("/search", express.static('public'));
 app.use(express.static(__dirname + '/public'));
 app.use(session({secret: "secretword", resave: false, saveUninitialized: true}));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -32,7 +34,6 @@ app.get('/signup', function (req, res) {
 });
 
 app.post('/signup', function (req, res) {
-    console.log(req.body);
     var username = req.body.user;
     var email = req.body.email;
     var password = req.body.password;
@@ -55,7 +56,7 @@ app.post('/signup', function (req, res) {
                     }
                 });
                 db.close();
-                res.redirect('/');
+                res.redirect('/search/' + lastLocation);
             }
         });
     });
@@ -75,7 +76,7 @@ app.post('/signin', function (req, res) {
                 req.session.user = username;
                 db.close();
                 console.log("user existing");
-                res.redirect('/');
+                res.redirect('/search/' + lastLocation);
             } else {
                 db.close();
                 console.log("password or username is invalid");
@@ -88,11 +89,12 @@ app.post('/signin', function (req, res) {
 app.get('/logout', function (req, res) {
     req.session.destroy();
     console.log("session ends");
-    res.redirect('/');
+    res.redirect('/search/' + lastLocation);
 });
 
 app.post('/search', function (req, res) {
     var location = req.body.location;
+    lastLocation = location;
     yelp.search({term: 'bars', location: location})
         .then(function (data) {
             var jsonString = JSON.stringify(data); // convert data to JSON string
@@ -161,6 +163,22 @@ app.post('/search', function (req, res) {
         .catch(function (err) {
             console.error(err);
         });
+});
+
+app.get('/search/:location', function (req, res) {
+    var location = req.params.location;
+    MongoClient.connect(url, function (err, db) {
+        db.collection('bars_1').find({
+            "location": location
+        }).toArray(function (err, items) {
+            res.render('searchResult.jade', {
+                "location": location,
+                "data": items,
+                "user": req.session.user
+            });
+        });
+        db.close();
+    });
 });
 
 app.get('/search/:user/:barname', function (req, res) {
